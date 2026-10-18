@@ -30,7 +30,6 @@ pnpm start            # launch the desktop app
 
 ```bash
 pnpm test             # syntax check, smoke tests, workflow regression test
-pnpm run test:e2e     # real Electron UI test (Windows, needs a display)
 ```
 
 Individual checks: `pnpm run test:syntax`, `pnpm run test:smoke`, `pnpm run test:regression`.
