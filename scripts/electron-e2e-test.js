@@ -258,7 +258,8 @@ async function run() {
     await window.locator("#override-facility-id").focus();
     await window.locator("#facility-id-menu .combo-option").first().waitFor({ state: "visible" });
     assert.equal(await window.locator("#facility-id-menu .combo-option").count(), 10);
-    assert.match(await window.locator("#facility-id-menu .combo-result-summary").textContent(), /complete catalog/);
+    // The synthetic catalog fits on one page, so no "showing N of M" summary is rendered.
+    assert.equal(await window.locator("#facility-id-menu .combo-result-summary").count(), 0);
     await window.locator("#override-facility-id").fill("F102");
     await window.locator("#facility-id-toggle").click();
     assert.equal(await window.locator("#facility-id-menu .facility-option-field", { hasText: "facility_id: F102" }).count(), 1);
