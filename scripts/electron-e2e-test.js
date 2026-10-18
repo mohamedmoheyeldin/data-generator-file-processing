@@ -181,9 +181,9 @@ async function run() {
     await window.locator("#use-current-referral-dates").check();
     assert.equal(await window.locator("#override-referral-date").inputValue(), today);
     await window.locator("#override-payment-authority-code").focus();
-    assert.equal(await window.locator("#payment-code-menu .combo-option").count(), 43);
+    assert.equal(await window.locator("#payment-code-menu .combo-option").count(), 10);
     await window.locator('#payment-code-menu [data-care-package-selector-key="21"]').click();
-    await window.locator('#payment-code-menu [data-care-package-selector-key="28"]').click();
+    await window.locator('#payment-code-menu [data-care-package-selector-key="30"]').click();
     assert.equal(await window.locator("#selected-payment-codes .selected-facility-chip").count(), 2);
     assert.equal(await window.locator("#use-all-payment-codes").isChecked(), false);
     await window.locator("#override-payment-authority-code").press("Escape");
