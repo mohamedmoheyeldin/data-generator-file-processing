@@ -188,7 +188,7 @@ test("Version 1.5.3 metadata, release notes, safety controls, and release automa
   assert.match(buildReleaseScript, /"--publish",\s*"never"/);
   assert.match(smokeWorkflow, /pull_request:/);
   assert.match(smokeWorkflow, /pnpm test/);
-  assert.match(smokeWorkflow, /Electron E2E \(Windows\)/);
+  assert.doesNotMatch(smokeWorkflow, /Electron E2E/);
   assert.match(mainProcess, /sandbox:\s*true/);
   assert.match(mainProcess, /jobWorker\.js/);
   assert.match(mainProcess, /backend:cancel/);
