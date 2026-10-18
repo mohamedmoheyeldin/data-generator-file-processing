@@ -121,7 +121,6 @@ test("LEIE validation SQL includes the requested query set and syntax highlighti
 test("Version 1.5.3 metadata, release notes, safety controls, and release automation stay consolidated", () => {
   const versionConfig = JSON.parse(fs.readFileSync(path.join(projectRoot, "config", "app_version.json"), "utf8"));
   const packageConfig = JSON.parse(fs.readFileSync(path.join(projectRoot, "package.json"), "utf8"));
-  const releaseWorkflow = fs.readFileSync(path.join(projectRoot, ".github", "workflows", "release.yml"), "utf8");
   const smokeWorkflow = fs.readFileSync(path.join(projectRoot, ".github", "workflows", "smoke-tests.yml"), "utf8");
   const buildReleaseScript = fs.readFileSync(path.join(projectRoot, "scripts", "build-release.js"), "utf8");
   const rendererHtml = fs.readFileSync(path.join(projectRoot, "electron", "renderer", "index.html"), "utf8");
@@ -184,17 +183,8 @@ test("Version 1.5.3 metadata, release notes, safety controls, and release automa
   assert.match(rendererStyles, /\.release-announcement-scroll\s*\{[^}]*overflow-y:\s*auto/s);
   assert.match(mainProcess, /app_icon\.ico/);
   assert.equal(fs.existsSync(path.join(projectRoot, ".github", "release.yml")), false);
-  assert.match(releaseWorkflow, /\$config\.releaseTag/);
-  assert.match(releaseWorkflow, /pnpm test/);
-  assert.match(releaseWorkflow, /pnpm run test:e2e/);
-  assert.match(releaseWorkflow, /pnpm audit --prod/);
-  assert.doesNotMatch(releaseWorkflow, /portable executables are not generated/i);
-  assert.match(releaseWorkflow, /Get-AuthenticodeSignature/);
-  assert.match(releaseWorkflow, /Install and launch the packaged application/);
-  assert.match(releaseWorkflow, /must include at least one releaseNotes entry/);
-  assert.match(releaseWorkflow, /gh release upload[\s\S]*--clobber/);
-  assert.match(releaseWorkflow, /gh release edit/);
-  assert.doesNotMatch(releaseWorkflow, /--generate-notes/);
+  // The public repository is source only: no workflow builds or publishes installers.
+  assert.equal(fs.existsSync(path.join(projectRoot, ".github", "workflows", "release.yml")), false);
   assert.match(buildReleaseScript, /"--publish",\s*"never"/);
   assert.match(smokeWorkflow, /pull_request:/);
   assert.match(smokeWorkflow, /pnpm test/);
