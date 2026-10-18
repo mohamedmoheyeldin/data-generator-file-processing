@@ -1,0 +1,50 @@
+{
+  "servers": [
+    {
+      "name": "DEV",
+      "host": "sftp-dev.example.com",
+      "port": 22
+    },
+    {
+      "name": "SQA",
+      "host": "sftp-qa.example.com",
+      "port": 22
+    },
+    {
+      "name": "PPD",
+      "host": "sftp-preprod.example.com",
+      "port": 22
+    },
+    {
+      "name": "PROD",
+      "host": "sftp.example.com",
+      "port": 22
+    }
+  ],
+  "users": [
+    {
+      "name": "example-user@DEV",
+      "server": "DEV",
+      "username": "",
+      "password": ""
+    },
+    {
+      "name": "example-user@SQA",
+      "server": "SQA",
+      "username": "",
+      "password": ""
+    },
+    {
+      "name": "example-user@PPD",
+      "server": "PPD",
+      "username": "",
+      "password": ""
+    },
+    {
+      "name": "example-user@PROD",
+      "server": "PROD",
+      "username": "",
+      "password": ""
+    }
+  ]
+}

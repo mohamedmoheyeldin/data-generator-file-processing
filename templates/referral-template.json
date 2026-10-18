@@ -1,0 +1,93 @@
+{
+  "templateVersion": 1,
+  "description": "Neutral referral record template. All values are synthetic placeholders; the generator replaces identifiers, names, contact details, dates and reference values on every run.",
+  "listDate": "2026-01-01 00:00:00",
+  "referral": {
+    "patient": {
+      "patientId": "TEST0000000000001",
+      "firstName": "Alex",
+      "middleName": "J",
+      "lastName": "Sample",
+      "ssn": "999-00-0001",
+      "dateOfBirth": "1980-01-01",
+      "sex": "U",
+      "phone": "555-010-0000",
+      "email": "patient.sample@example.com",
+      "preferredContactMethod": "phone",
+      "address": {
+        "line1": "100 Example Street",
+        "line2": "",
+        "city": "Springfield",
+        "state": "ZZ",
+        "postalCode": "00000",
+        "country": "USA"
+      }
+    },
+    "referral": {
+      "referralNumber": "RF0000000001",
+      "category": "Outpatient",
+      "status": "Approved",
+      "priority": "Routine",
+      "serviceRequested": "Consultation",
+      "diagnosis": "Routine general examination",
+      "diagnosisCode": "Z00.00",
+      "referralDate": "2026-01-01",
+      "referralDateTime": "2026-01-01 09:00:00",
+      "expirationDate": "2028-09-17",
+      "lastUpdateDate": "2026-01-01",
+      "lastUpdateDateTime": "2026-01-01 09:00:00",
+      "referralPeriod": "990 days",
+      "clinicallyIndicatedDate": "2026-01-01",
+      "treatmentStartDate": "2026-01-01",
+      "network": "NET1",
+      "carePackageKey": "101",
+      "carePackageId": "AUD_HEARING EVALUATION_1.0.1",
+      "paymentAuthorityCode": "10",
+      "estimatedCost": "250.00",
+      "comments": "Synthetic test record"
+    },
+    "provider": {
+      "referringProviderName": "Jordan Example",
+      "referringProviderNpi": "0000000001",
+      "treatingProviderName": "Casey Example",
+      "treatingProviderNpi": "0000000002",
+      "specialty": "Audiology",
+      "specialtyCode": "AUD"
+    },
+    "facility": {
+      "facilityId": "F101",
+      "facilityName": "Maple Grove Community Clinic (fictional)",
+      "phone": "555-020-0000",
+      "fax": "555-020-0001",
+      "address": {
+        "line1": "200 Sample Avenue",
+        "line2": "Suite 100",
+        "city": "Fairview",
+        "state": "ZZ",
+        "postalCode": "00000",
+        "country": "USA"
+      }
+    },
+    "coverage": {
+      "payerStatus": "Primary",
+      "plans": [
+        {
+          "payerName": "Example Health Plan",
+          "planType": "Commercial",
+          "memberNumber": "M0000001",
+          "groupNumber": "G0001",
+          "validFrom": "2025-01-01",
+          "validTo": "2026-12-31"
+        }
+      ]
+    },
+    "appointments": [
+      {
+        "appointmentDate": "2026-01-01",
+        "appointmentTime": "09:30:00",
+        "status": "Scheduled",
+        "reason": "Initial evaluation"
+      }
+    ]
+  }
+}

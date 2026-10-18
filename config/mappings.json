@@ -1,0 +1,4 @@
+{
+  "localhost": "prod.server.com",
+  "DEBUG=true": "DEBUG=false"
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "carePackageNumber": "101",
+    "carePackageId": "AUD_HEARING EVALUATION_1.0.1",
+    "name": "AUD_HEARING EVALUATION",
+    "displayName": "AUD_HEARING EVALUATION - 101"
+  },
+  {
+    "carePackageNumber": "102",
+    "carePackageId": "CAR_CARDIOLOGY CONSULT_1.2.0",
+    "name": "CAR_CARDIOLOGY CONSULT",
+    "displayName": "CAR_CARDIOLOGY CONSULT - 102"
+  },
+  {
+    "carePackageNumber": "103",
+    "carePackageId": "DEN_ROUTINE DENTAL CARE_1.1.3",
+    "name": "DEN_ROUTINE DENTAL CARE",
+    "displayName": "DEN_ROUTINE DENTAL CARE - 103"
+  },
+  {
+    "carePackageNumber": "104",
+    "carePackageId": "DER_DERMATOLOGY EVALUATION_1.0.4",
+    "name": "DER_DERMATOLOGY EVALUATION",
+    "displayName": "DER_DERMATOLOGY EVALUATION - 104"
+  },
+  {
+    "carePackageNumber": "105",
+    "carePackageId": "GAS_GASTROENTEROLOGY CONSULT_1.3.0",
+    "name": "GAS_GASTROENTEROLOGY CONSULT",
+    "displayName": "GAS_GASTROENTEROLOGY CONSULT - 105"
+  },
+  {
+    "carePackageNumber": "106",
+    "carePackageId": "ORT_ORTHOPEDIC SURGERY AND FOLLOW UP_2.0.1",
+    "name": "ORT_ORTHOPEDIC SURGERY AND FOLLOW UP",
+    "displayName": "ORT_ORTHOPEDIC SURGERY AND FOLLOW UP - 106"
+  },
+  {
+    "carePackageNumber": "107",
+    "carePackageId": "PHY_PHYSICAL THERAPY_1.4.2",
+    "name": "PHY_PHYSICAL THERAPY",
+    "displayName": "PHY_PHYSICAL THERAPY - 107"
+  },
+  {
+    "carePackageNumber": "108",
+    "carePackageId": "RAD_DIAGNOSTIC IMAGING_1.0.9",
+    "name": "RAD_DIAGNOSTIC IMAGING",
+    "displayName": "RAD_DIAGNOSTIC IMAGING - 108"
+  },
+  {
+    "carePackageNumber": "109",
+    "carePackageId": "OPH_EYE EXAM_1.1.0",
+    "name": "OPH_EYE EXAM",
+    "displayName": "OPH_EYE EXAM - 109"
+  },
+  {
+    "carePackageNumber": "110",
+    "carePackageId": "PUL_PULMONOLOGY CONSULT_1.0.2",
+    "name": "PUL_PULMONOLOGY CONSULT",
+    "displayName": "PUL_PULMONOLOGY CONSULT - 110"
+  },
+  {
+    "carePackageNumber": "111",
+    "carePackageId": "URO_UROLOGY EVALUATION_1.2.5",
+    "name": "URO_UROLOGY EVALUATION",
+    "displayName": "URO_UROLOGY EVALUATION - 111"
+  },
+  {
+    "carePackageNumber": "112",
+    "carePackageId": "NEU_NEUROLOGY CONSULT_1.0.7",
+    "name": "NEU_NEUROLOGY CONSULT",
+    "displayName": "NEU_NEUROLOGY CONSULT - 112"
+  }
+]

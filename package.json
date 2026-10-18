@@ -1,0 +1,105 @@
+{
+  "name": "data-generator-file-processing",
+  "version": "1.5.3",
+  "description": "Electron desktop app that generates synthetic healthcare referral test data and batch-processes, validates, packages and uploads data files.",
+  "main": "electron/main.js",
+  "author": "Mohamed Moheyeldin",
+  "license": "MIT",
+  "scripts": {
+    "prestart": "node scripts/generate-user-guide-pdf.js && node scripts/sync-build-version.js",
+    "start": "electron .",
+    "pretest": "node scripts/generate-user-guide-pdf.js && node scripts/sync-build-version.js",
+    "test": "pnpm run test:syntax && pnpm run test:smoke && pnpm run test:regression",
+    "verify": "pnpm test",
+    "test:syntax": "node scripts/syntax-check.js",
+    "test:smoke": "node scripts/smoke-test.js",
+    "test:e2e": "node scripts/electron-e2e-test.js",
+    "data:facilities": "node scripts/import-facilities.js",
+    "data:care-packages": "node scripts/import-care-packages.js",
+    "predist": "node scripts/generate-user-guide-pdf.js && node scripts/sync-build-version.js",
+    "dist": "node scripts/build-release.js",
+    "test:regression": "node scripts/workflow-regression-test.js"
+  },
+  "dependencies": {
+    "ssh2-sftp-client": "^12.1.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "electron": "^44.4.1",
+    "electron-builder": "^26.15.3",
+    "playwright": "^1.63.0"
+  },
+  "build": {
+    "appId": "com.example.datageneratorfileprocessing",
+    "productName": "Data Generator & File Processing",
+    "files": [
+      "electron/**/*",
+      "assets/icons/app_icon.ico",
+      "assets/icons/app_icon.png",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "electron/backend/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "config",
+        "to": "config"
+      },
+      {
+        "from": "docs",
+        "to": "docs"
+      },
+      {
+        "from": "assets",
+        "to": "assets"
+      },
+      {
+        "from": "templates",
+        "to": "templates"
+      }
+    ],
+    "extraFiles": [
+      {
+        "from": "config",
+        "to": "config"
+      },
+      {
+        "from": "docs",
+        "to": "docs"
+      },
+      {
+        "from": "assets",
+        "to": "assets"
+      },
+      {
+        "from": "templates",
+        "to": "templates"
+      }
+    ],
+    "win": {
+      "icon": "assets/icons/app_icon.ico",
+      "defaultArch": "x64",
+      "signAndEditExecutable": true,
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "uninstallDisplayName": "Data Generator & File Processing Version 1.5.3",
+      "installerIcon": "assets/icons/app_icon.ico",
+      "uninstallerIcon": "assets/icons/app_icon.ico",
+      "installerHeaderIcon": "assets/icons/app_icon.ico",
+      "include": "scripts/installer.nsh"
+    }
+  },
+  "packageManager": "pnpm@11.22.0"
+}

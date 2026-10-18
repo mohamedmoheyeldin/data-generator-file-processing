@@ -1,0 +1,6 @@
+{
+  "rename": [
+    { "match": "old", "replace": "new" },
+    { "match": "test", "replace": "prod" }
+  ]
+}

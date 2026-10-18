@@ -1,0 +1,270 @@
+{
+  "description": "Three plainly synthetic sample referral records in the generator output format. No real people, providers, facilities or identifiers.",
+  "listDate": "2026-01-15 09:30:00",
+  "referrals": [
+    {
+      "patient": {
+        "patientId": "TEST0000000000001",
+        "firstName": "Alex",
+        "middleName": "J",
+        "lastName": "Sample",
+        "ssn": "999-00-0001",
+        "dateOfBirth": "1984-03-12",
+        "sex": "F",
+        "phone": "555-093-5111",
+        "email": "alex.sample@example.com",
+        "preferredContactMethod": "email",
+        "address": {
+          "line1": "104 Mock Court",
+          "line2": "",
+          "city": "Brookfield",
+          "state": "ZZ",
+          "postalCode": "00000",
+          "country": "USA"
+        }
+      },
+      "referral": {
+        "referralNumber": "RF0000000001",
+        "category": "Diagnostic",
+        "status": "Scheduled",
+        "priority": "Urgent",
+        "serviceRequested": "Follow-up visit",
+        "diagnosis": "Type 2 diabetes without complications",
+        "diagnosisCode": "E11.9",
+        "referralDate": "2026-01-15",
+        "referralDateTime": "2026-01-15 09:30:00",
+        "expirationDate": "2028-10-01",
+        "lastUpdateDate": "2026-01-15",
+        "lastUpdateDateTime": "2026-01-15 09:30:00",
+        "referralPeriod": "990 days",
+        "clinicallyIndicatedDate": "2026-01-15",
+        "treatmentStartDate": "2026-01-15",
+        "network": "NET1",
+        "carePackageKey": "101",
+        "carePackageId": "AUD_HEARING EVALUATION_1.0.1",
+        "paymentAuthorityCode": "10",
+        "estimatedCost": "1670.50",
+        "comments": "Synthetic test record"
+      },
+      "provider": {
+        "referringProviderName": "Morgan Example",
+        "referringProviderNpi": "0106074593",
+        "treatingProviderName": "Casey Mockridge",
+        "treatingProviderNpi": "0784129124",
+        "specialty": "Orthopedics",
+        "specialtyCode": "ORT"
+      },
+      "facility": {
+        "facilityId": "F101",
+        "facilityName": "Maple Grove Community Clinic (fictional)",
+        "phone": "555-018-6091",
+        "fax": "555-002-1160",
+        "address": {
+          "line1": "641 Example Street",
+          "line2": "Suite 340",
+          "city": "Hillcrest",
+          "state": "ZZ",
+          "postalCode": "00000",
+          "country": "USA"
+        }
+      },
+      "coverage": {
+        "payerStatus": "Primary",
+        "plans": [
+          {
+            "payerName": "Demo Care Network",
+            "planType": "Supplemental",
+            "memberNumber": "M0101191",
+            "groupNumber": "G1201",
+            "validFrom": "2025-01-01",
+            "validTo": "2026-12-31"
+          }
+        ]
+      },
+      "appointments": [
+        {
+          "appointmentDate": "2026-01-15",
+          "appointmentTime": "09:30:00",
+          "status": "Scheduled",
+          "reason": "Results review"
+        }
+      ]
+    },
+    {
+      "patient": {
+        "patientId": "TEST0000000000002",
+        "firstName": "Jamie",
+        "middleName": "R",
+        "lastName": "Example",
+        "ssn": "999-00-0002",
+        "dateOfBirth": "1971-11-02",
+        "sex": "M",
+        "phone": "555-044-0678",
+        "email": "jamie.example@example.com",
+        "preferredContactMethod": "email",
+        "address": {
+          "line1": "940 Mock Court",
+          "line2": "",
+          "city": "Greenville",
+          "state": "ZZ",
+          "postalCode": "00000",
+          "country": "USA"
+        }
+      },
+      "referral": {
+        "referralNumber": "RF0000000002",
+        "category": "Therapy",
+        "status": "Approved",
+        "priority": "Routine",
+        "serviceRequested": "Procedure",
+        "diagnosis": "Routine general examination",
+        "diagnosisCode": "Z00.00",
+        "referralDate": "2026-01-15",
+        "referralDateTime": "2026-01-15 09:30:00",
+        "expirationDate": "2028-10-01",
+        "lastUpdateDate": "2026-01-15",
+        "lastUpdateDateTime": "2026-01-15 09:30:00",
+        "referralPeriod": "990 days",
+        "clinicallyIndicatedDate": "2026-01-15",
+        "treatmentStartDate": "2026-01-15",
+        "network": "NET3",
+        "carePackageKey": "107",
+        "carePackageId": "PHY_PHYSICAL THERAPY_1.4.2",
+        "paymentAuthorityCode": "21",
+        "estimatedCost": "279.36",
+        "comments": "Synthetic test record"
+      },
+      "provider": {
+        "referringProviderName": "Morgan Demo",
+        "referringProviderNpi": "0317316884",
+        "treatingProviderName": "Parker Mockridge",
+        "treatingProviderNpi": "0665521888",
+        "specialty": "Dermatology",
+        "specialtyCode": "DER"
+      },
+      "facility": {
+        "facilityId": "F104",
+        "facilityName": "Harbor View Health Center (fictional)",
+        "phone": "555-028-9774",
+        "fax": "555-033-5103",
+        "address": {
+          "line1": "236 Example Street",
+          "line2": "Suite 153",
+          "city": "Springfield",
+          "state": "ZZ",
+          "postalCode": "00000",
+          "country": "USA"
+        }
+      },
+      "coverage": {
+        "payerStatus": "Primary",
+        "plans": [
+          {
+            "payerName": "Demo Care Network",
+            "planType": "Employer Group",
+            "memberNumber": "M5231243",
+            "groupNumber": "G5480",
+            "validFrom": "2025-01-01",
+            "validTo": "2026-12-31"
+          }
+        ]
+      },
+      "appointments": [
+        {
+          "appointmentDate": "2026-01-15",
+          "appointmentTime": "09:30:00",
+          "status": "Scheduled",
+          "reason": "Follow-up"
+        }
+      ]
+    },
+    {
+      "patient": {
+        "patientId": "TEST0000000000003",
+        "firstName": "Morgan",
+        "middleName": "T",
+        "lastName": "Testcase",
+        "ssn": "999-00-0003",
+        "dateOfBirth": "1990-06-25",
+        "sex": "F",
+        "phone": "555-005-0025",
+        "email": "morgan.testcase@example.com",
+        "preferredContactMethod": "phone",
+        "address": {
+          "line1": "536 Sample Avenue",
+          "line2": "",
+          "city": "Brookfield",
+          "state": "ZZ",
+          "postalCode": "00000",
+          "country": "USA"
+        }
+      },
+      "referral": {
+        "referralNumber": "RF0000000003",
+        "category": "Inpatient",
+        "status": "Scheduled",
+        "priority": "Routine",
+        "serviceRequested": "Imaging",
+        "diagnosis": "Pain in right knee",
+        "diagnosisCode": "M25.561",
+        "referralDate": "2026-01-15",
+        "referralDateTime": "2026-01-15 09:30:00",
+        "expirationDate": "2028-10-01",
+        "lastUpdateDate": "2026-01-15",
+        "lastUpdateDateTime": "2026-01-15 09:30:00",
+        "referralPeriod": "990 days",
+        "clinicallyIndicatedDate": "2026-01-15",
+        "treatmentStartDate": "2026-01-15",
+        "network": "NET5",
+        "carePackageKey": "108",
+        "carePackageId": "RAD_DIAGNOSTIC IMAGING_1.0.9",
+        "paymentAuthorityCode": "30",
+        "estimatedCost": "969.35",
+        "comments": "Synthetic test record"
+      },
+      "provider": {
+        "referringProviderName": "Jordan Sample",
+        "referringProviderNpi": "0546793822",
+        "treatingProviderName": "Riley Example",
+        "treatingProviderNpi": "0523341590",
+        "specialty": "Radiology",
+        "specialtyCode": "RAD"
+      },
+      "facility": {
+        "facilityId": "F208",
+        "facilityName": "Willow Creek Rehabilitation Center (fictional)",
+        "phone": "555-006-1877",
+        "fax": "555-082-5651",
+        "address": {
+          "line1": "712 Test Lane",
+          "line2": "Suite 346",
+          "city": "Fairview",
+          "state": "ZZ",
+          "postalCode": "00000",
+          "country": "USA"
+        }
+      },
+      "coverage": {
+        "payerStatus": "Primary",
+        "plans": [
+          {
+            "payerName": "Example Health Plan",
+            "planType": "Employer Group",
+            "memberNumber": "M0992818",
+            "groupNumber": "G1643",
+            "validFrom": "2025-01-01",
+            "validTo": "2026-12-31"
+          }
+        ]
+      },
+      "appointments": [
+        {
+          "appointmentDate": "2026-01-15",
+          "appointmentTime": "09:30:00",
+          "status": "Scheduled",
+          "reason": "Initial evaluation"
+        }
+      ]
+    }
+  ]
+}

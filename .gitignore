@@ -1,0 +1,15 @@
+config/upload_credentials.json
+upload_import/WinSCP.ini
+node_modules/
+src/__pycache__/
+/dist-electron/
+/release/
+/build/
+/output/
+/logs/
+*.tmp
+.env
+.env.*
+!.env.example
+.codex
+docs/*.pdf

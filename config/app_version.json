@@ -1,0 +1,18 @@
+{
+  "version": "1.5.3",
+  "releaseTag": "v1.5.3",
+  "label": "Version 1.5.3",
+  "announcementId": "v1.5.3",
+  "releaseNotes": [
+    "Generated referrals are built from one neutral template (patient, referral, provider, facility, coverage and appointment groups) with randomized synthetic values.",
+    "Manifest files are optional: use Generate Manifest after a completed job.",
+    "Payment Authority Code uses a searchable dropdown limited to the configured reference list, with saved selections.",
+    "New referrals default to current dates; expiration follows Referral Period and custom dates remain available.",
+    "Keep individual formatted JSON, a combined formatted master JSON, or only gzip. Matching filenames are overwritten after validation and unrelated files are preserved.",
+    "Facilities, networks, payment codes, and care package pairs stay within the selected reference values.",
+    "Referral and LEIE uploads use one sequential queue, skip duplicate destinations, and continue after a failed server.",
+    "Dialogs scroll on smaller screens and at higher zoom so confirmation buttons remain reachable.",
+    "The Setup installer distinguishes a fresh installation from an upgrade in the selected folder.",
+    "Output validation and batch regression coverage for generated master JSON and gzip archives."
+  ]
+}

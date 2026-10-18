@@ -1,0 +1,20 @@
+[
+  {
+    "carePackageNumber": "201",
+    "carePackageId": "EMR_EMERGENCY CARE_1.0.0",
+    "name": "EMR_EMERGENCY CARE",
+    "displayName": "EMR_EMERGENCY CARE_1.0.0 - 201"
+  },
+  {
+    "carePackageNumber": "202",
+    "carePackageId": "BHR_BEHAVIORAL HEALTH RESIDENTIAL_1.1.0",
+    "name": "BHR_BEHAVIORAL HEALTH RESIDENTIAL",
+    "displayName": "BHR_BEHAVIORAL HEALTH RESIDENTIAL_1.1.0 - 202"
+  },
+  {
+    "carePackageNumber": "203",
+    "carePackageId": "TRN_TRANSPLANT EVALUATION_1.0.3",
+    "name": "TRN_TRANSPLANT EVALUATION",
+    "displayName": "TRN_TRANSPLANT EVALUATION_1.0.3 - 203"
+  }
+]

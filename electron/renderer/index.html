@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <title>Data Generator &amp; File Processing</title>
+    <link rel="icon" href="../../assets/icons/app_icon.ico" sizes="any" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar glass-card">
+        <div class="topbar-side">
+          <button id="open-user-guide" class="toolbar-button primary-soft">User Guide</button>
+          <button id="export-diagnostics" class="toolbar-button">Export Diagnostics</button>
+        </div>
+        <div class="topbar-center">
+          <div class="topbar-title-row">
+            <img class="app-logo app-logo-topbar" src="../../assets/icons/app_icon.png" alt="Application logo" />
+            <h1 id="hero-title">Data Generator &amp; File Processing</h1>
+            <span id="app-version-badge" class="version-badge hidden"></span>
+          </div>
+          <p id="hero-subtitle" class="topbar-subtitle">
+            Use the tabs below to work with referral files and related processing workflows.
+          </p>
+        </div>
+        <div class="topbar-side topbar-side-end">
+          <div class="theme-picker">
+            <span>Theme</span>
+            <div class="segmented-control compact" role="group" aria-label="Theme">
+              <button class="segment is-active" data-theme="light" aria-pressed="true">Light</button>
+              <button class="segment" data-theme="dark" aria-pressed="false">Dark</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="main-tabs">
+        <div class="segmented-control centered" role="tablist" aria-label="Processing workflow">
+          <button class="segment is-active" data-main-tab="referral" role="tab" aria-selected="true">Referral Files</button>
+          <button class="segment" data-main-tab="leie" role="tab" aria-selected="false">LEIE Data Processing</button>
+          <button class="segment" data-main-tab="other" role="tab" aria-selected="false">More Features Coming Soon</button>
+        </div>
+        <div id="main-tab-copy" class="tab-copy">
+          Choose source files, apply targeted JSON updates, and export clean output in one pass.
+        </div>
+      </section>
+
+      <section class="workspace">
+        <main class="content">
+          <div id="subtab-row" class="subtab-row">
+            <div class="segmented-control" role="tablist" aria-label="Referral workflow mode">
+              <button class="segment is-active" data-sub-tab="edit" role="tab" aria-selected="true">Edit Existing Files</button>
+              <button class="segment" data-sub-tab="generate" role="tab" aria-selected="false">Generate New Files</button>
+            </div>
+          </div>
+
+          <section class="content-stack">
+            <article id="workflow-card" class="content-card glass-card">
+              <div class="section-head section-head-hero">
+                <div class="section-head-copy centered-copy">
+                  <h2 id="workflow-title">Referral Processing</h2>
+                  <p id="workflow-subtitle">
+                    Choose source files, apply targeted JSON updates, and export clean output in one pass.
+                  </p>
+                </div>
+                <div id="template-summary-pill" class="pill-note hidden"></div>
+              </div>
+              <ol id="workflow-stepper" class="workflow-stepper" aria-label="Workflow progress">
+                <li class="is-active" data-workflow-step="source">1. Select</li>
+                <li data-workflow-step="configure">2. Configure</li>
+                <li data-workflow-step="validate">3. Validate</li>
+                <li data-workflow-step="process">4. Process</li>
+                <li data-workflow-step="upload">5. Upload</li>
+              </ol>
+              <details id="workflow-help" class="context-help context-help--workflow">
+                <summary>New here? See how the five steps work</summary>
+                <div class="context-help-grid">
+                  <div><strong>1. Select</strong><span>Choose the source folder or generation template. Source files are never edited.</span></div>
+                  <div><strong>2. Configure</strong><span>Set the fields you want to change. Leave optional overrides blank to keep source values.</span></div>
+                  <div><strong>3. Validate</strong><span>Check the live previews and correct any highlighted fields before continuing.</span></div>
+                  <div><strong>4. Process</strong><span>Review the run summary, then create the new files in the selected output folder.</span></div>
+                  <div><strong>5. Upload</strong><span>Upload is optional and runs only when you enable it and choose a configured target.</span></div>
+                </div>
+              </details>
+            </article>
+
+            <article id="future-card" class="content-card glass-card hidden">
+              <div class="section-head section-head-hero">
+                <div class="section-head-copy centered-copy">
+                  <h2>More Features Coming Soon</h2>
+                  <p>This area is reserved for future implementations.</p>
+                </div>
+              </div>
+            </article>
+
+            <article id="source-card" class="content-card glass-card">
+              <div class="section-head">
+                <div>
+                  <h2 id="source-title">Source</h2>
+                  <p id="source-subtitle">Pick the folder that contains the incoming JSON files.</p>
+                </div>
+              </div>
+              <div id="leie-guide-banner" class="leie-guide-banner hidden">
+                <div class="leie-guide-copy">
+                  <strong>LEIE Data Upload and Validation Guide</strong>
+                  <span>Open the PDF manual for upload steps and database validation checks.</span>
+                </div>
+                <button id="open-leie-validation-guide" class="toolbar-button">Open PDF Guide</button>
+              </div>
+              <label class="field-block" id="source-folder-field">
+                <span>Source Folder</span>
+                <div class="field-row">
+                  <input id="input-dir" type="text" placeholder="Choose the folder that contains source files" aria-describedby="source-folder-help" />
+                  <button data-pick="input-dir" class="toolbar-button">Browse</button>
+                </div>
+                <small id="source-folder-help" class="helper-text">The app reads supported files from this folder but never changes the originals. New files are written to the Output folder.</small>
+              </label>
+              <div class="info-chips">
+                <span id="source-file-count" class="info-chip">No source folder selected.</span>
+                <span id="list-date-source-value" class="info-chip">Choose a source folder to begin scanning files.</span>
+              </div>
+            </article>
+
+            <article id="leie-duplicate-card" class="content-card glass-card hidden">
+              <div class="section-head">
+                <div>
+                  <h2>Duplicate Detection</h2>
+                  <p>Duplicate results from the selected LEIE source folder will appear below.</p>
+                </div>
+                <button id="leie-rescan" class="toolbar-button">Rescan</button>
+              </div>
+              <div class="form-grid two-col">
+                <label class="field-block">
+                  <span>Current Result</span>
+                  <input id="leie-duplicate-result" type="text" readonly value="No LEIE source folder selected." />
+                  <small id="leie-duplicate-summary" class="helper-text">Duplicate details appear in the table below if found.</small>
+                </label>
+              </div>
+              <div id="leie-duplicate-actions" class="output-retention-card hidden">
+                <span>Resolve Duplicates</span>
+                <div class="choice-card-grid compact-option-grid" role="radiogroup" aria-label="Duplicate resolution">
+                  <label class="choice-card">
+                    <input id="leie-action-auto" name="leie-duplicate-action" type="radio" value="auto-remove" />
+                    <span><strong>Remove automatically</strong><small>Keep the first matching row and remove later matches.</small></span>
+                  </label>
+                  <label class="choice-card">
+                    <input id="leie-action-manual" name="leie-duplicate-action" type="radio" value="manual" checked />
+                    <span><strong>Review manually</strong><small>Pause processing so the source data can be corrected and rescanned.</small></span>
+                  </label>
+                </div>
+                <small id="leie-action-help" class="helper-text">
+                  Progress is blocked until duplicates are removed automatically or fixed manually and rescanned.
+                </small>
+                <div class="toggle-row">
+                  <button id="leie-cancel-process" class="toolbar-button">Cancel Process</button>
+                </div>
+              </div>
+              <div id="leie-duplicate-table-wrap" class="duplicate-table-wrap hidden">
+                <table class="duplicate-table">
+                  <thead>
+                    <tr>
+                      <th>File Name</th>
+                      <th>Row</th>
+                      <th>Duplicate Value</th>
+                      <th>Column</th>
+                    </tr>
+                  </thead>
+                  <tbody id="leie-duplicate-table-body"></tbody>
+                </table>
+              </div>
+            </article>
+
+            <article id="generator-card" class="content-card glass-card hidden">
+              <div class="section-head generator-header">
+                <div>
+                  <h2>Generator Setup</h2>
+                  <p>Pick a template, choose the output shape, then fine tune the exact counts below.</p>
+                </div>
+              </div>
+
+              <div class="generator-stats">
+                <div class="generator-stat-card">
+                  <span>JSON files</span>
+                  <strong id="generator-file-count-display">1</strong>
+                  <small>How many JSON files will be created in this run.</small>
+                </div>
+                <div class="generator-stat-card">
+                  <span>Per file</span>
+                  <strong id="generator-referrals-per-file-display">1</strong>
+                  <small>How many referrals each generated JSON file will contain.</small>
+                </div>
+                <div class="generator-stat-card accent">
+                  <span>Total referrals</span>
+                  <strong id="generator-total-referrals-display">1</strong>
+                  <small>Total referrals created across all generated JSON files.</small>
+                </div>
+              </div>
+
+              <div class="form-grid two-col generator-form-grid">
+                <label class="field-block">
+                  <span>Number of JSON files to generate</span>
+                  <input id="file-count" type="number" min="1" value="1" />
+                  <small id="file-count-help" class="helper-text">Set this to `1` for a single JSON file, or higher for multiple files.</small>
+                </label>
+                <label class="field-block">
+                  <span>Number of referrals per file</span>
+                  <input id="referrals-per-file" type="number" min="1" value="1" />
+                  <small id="referrals-per-file-help" class="helper-text">Set this to `1` for one referral in each file, or higher for multiple referrals.</small>
+                </label>
+              </div>
+            </article>
+
+            <article id="referral-details-card" class="content-card glass-card">
+              <div class="section-head">
+                <div>
+                  <h2>Referral Details</h2>
+                  <p>Set the first referral number and ListDate behavior for this run.</p>
+                </div>
+                <button id="toggle-optional-fields" class="toolbar-button invert-active">Show Additional Fields</button>
+              </div>
+
+              <details id="referral-help" class="context-help">
+                <summary>How Referral Numbers, Patient IDs, Care Packages, and optional fields work</summary>
+                <div class="context-help-grid context-help-grid--three">
+                  <div><strong>Referral Number</strong><span>Choose a prefix and enter the body once. The live preview shows the first value; larger batches continue the sequence automatically.</span></div>
+                  <div><strong>Patient ID</strong><span>Open Additional Fields to control Patient IDs. Referral Number mode keeps the required 17-character TEST format and keeps every generated Patient ID unique.</span></div>
+                  <div><strong>Optional overrides</strong><span>Leave a field blank to keep its source or default behavior. Selected subsets are mixed across the batch; “use all” uses the complete reference list.</span></div>
+                  <div><strong>Care Package choices</strong><span>Regular Care Package values are mixed automatically from the approved catalog. Select a subset to restrict the values. Situational Care Package is manual-only and should be selected only when specifically required.</span></div>
+                </div>
+              </details>
+
+              <div class="form-grid two-col">
+                <div class="field-block referral-number-field">
+                  <span>Referral Number</span>
+                  <div class="choice-card-grid referral-prefix-choices" role="radiogroup" aria-label="Referral Number prefix">
+                    <label class="choice-card">
+                      <input id="referral-prefix-standard" name="referral-prefix-mode" type="radio" value="standard" checked />
+                      <span><strong>Standard</strong><small>Use RF for every referral.</small></span>
+                    </label>
+
+
+                    <label class="choice-card">
+                      <input id="referral-prefix-custom" name="referral-prefix-mode" type="radio" value="custom" />
+                      <span><strong>Custom</strong><small>Enter your own letters or numbers.</small></span>
+                    </label>
+                  </div>
+                  <label id="custom-referral-prefix-row" class="field-block compact-field hidden">
+                    <span>Custom prefix</span>
+                    <input id="custom-referral-prefix" type="text" placeholder="Example: RF-TEST_" />
+                  </label>
+                  <label class="field-block compact-field">
+                    <span>Starting number or body</span>
+                    <input id="referral-code" type="text" placeholder="Example: 26S6-00001_TEST" />
+                  </label>
+                  <small id="referral-prefix-help" class="helper-text">RF will be added automatically. The body can include letters, numbers, hyphens (-), and underscores (_).</small>
+                  <small id="referral-preview" class="helper-text live-preview">Preview: default referral numbers from source files</small>
+                </div>
+                <label class="field-block">
+                  <span>SSN</span>
+                  <input id="ssn-value" type="text" value="999-99-0001" />
+                  <label class="radio-chip"><input id="randomize-ssn" type="checkbox" checked /><span>Generate a random test SSN for every patient</span></label>
+                  <small id="ssn-help" class="helper-text">Generated test SSNs always start with 999 and differ for each patient. Uncheck random generation to use the fixed value above.</small>
+                </label>
+              </div>
+
+              <div class="date-grid">
+                <div class="date-label-row">
+                  <span>List Date</span>
+                  <small>Current date and time stays live until you edit any segment below.</small>
+                </div>
+                <div class="date-segments">
+                  <div class="date-field" data-date-part="year">
+                    <label for="list-date-year">Year</label>
+                    <div class="date-control">
+                      <button type="button" class="date-step" data-step="-1" aria-label="Decrease year">-</button>
+                      <input id="list-date-year" maxlength="4" value="0000" />
+                      <button type="button" class="date-step" data-step="1" aria-label="Increase year">+</button>
+                    </div>
+                  </div>
+                  <div class="date-field" data-date-part="month">
+                    <label for="list-date-month">Month</label>
+                    <div class="date-control">
+                      <button type="button" class="date-step" data-step="-1" aria-label="Decrease month">-</button>
+                      <input id="list-date-month" maxlength="2" value="00" />
+                      <button type="button" class="date-step" data-step="1" aria-label="Increase month">+</button>
+                    </div>
+                  </div>
+                  <div class="date-field" data-date-part="day">
+                    <label for="list-date-day">Day</label>
+                    <div class="date-control">
+                      <button type="button" class="date-step" data-step="-1" aria-label="Decrease day">-</button>
+                      <input id="list-date-day" maxlength="2" value="00" />
+                      <button type="button" class="date-step" data-step="1" aria-label="Increase day">+</button>
+                    </div>
+                  </div>
+                  <div class="date-field" data-date-part="hour">
+                    <label for="list-date-hour">Hour</label>
+                    <div class="date-control">
+                      <button type="button" class="date-step" data-step="-1" aria-label="Decrease hour">-</button>
+                      <input id="list-date-hour" maxlength="2" value="00" />
+                      <button type="button" class="date-step" data-step="1" aria-label="Increase hour">+</button>
+                    </div>
+                  </div>
+                  <div class="date-field" data-date-part="minute">
+                    <label for="list-date-minute">Minute</label>
+                    <div class="date-control">
+                      <button type="button" class="date-step" data-step="-1" aria-label="Decrease minute">-</button>
+                      <input id="list-date-minute" maxlength="2" value="00" />
+                      <button type="button" class="date-step" data-step="1" aria-label="Increase minute">+</button>
+                    </div>
+                  </div>
+                  <div class="date-field" data-date-part="second">
+                    <label for="list-date-second">Second</label>
+                    <div class="date-control">
+                      <button type="button" class="date-step" data-step="-1" aria-label="Decrease second">-</button>
+                      <input id="list-date-second" maxlength="2" value="00" />
+                      <button type="button" class="date-step" data-step="1" aria-label="Increase second">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="optional-fields" class="optional-fields hidden">
+                <div class="form-grid two-col">
+                  <div class="field-block field-span-2">
+                    <span>Patient ID</span>
+                    <div class="choice-card-grid" role="radiogroup" aria-label="Patient ID naming mode">
+                      <label class="choice-card">
+                        <input id="patient-id-mode-test-dynamic" name="patient-id-mode" type="radio" value="test-dynamic" checked />
+                        <span><strong>Default</strong><small>Keep TEST and generate the rest.</small></span>
+                      </label>
+
+                      <label class="choice-card">
+                        <input id="patient-id-mode-custom-full" name="patient-id-mode" type="radio" value="custom-full" />
+                        <span><strong>Custom</strong><small>Enter a custom full Patient ID base.</small></span>
+                      </label>
+                      <label class="choice-card">
+                        <input id="patient-id-mode-referral-match" name="patient-id-mode" type="radio" value="referral-match" />
+                        <span><strong>Referral Number</strong><small>Build each Patient ID from its Referral Number.</small></span>
+                      </label>
+                    </div>
+                    <small class="helper-text">Choose how generated Patient IDs are named. Custom values accept both lowercase and uppercase letters.</small>
+                  </div>
+                  <label class="field-block">
+                    <span>Patient ID Custom Value</span>
+                    <input id="patient-id-custom-value" type="text" placeholder="Using TEST + generated digits" />
+                    <small id="patient-id-preview" class="helper-text live-preview">Preview: TEST + 13 generated digits</small>
+                  </label>
+                  <label class="field-block">
+                    <span>Referral / Patient ID Match</span>
+                    <select id="match-suffix-length">
+                      <option value="3">Match last 3 characters</option>
+                      <option value="4">Match last 4 characters</option>
+                      <option value="5" selected>Match last 5 characters</option>
+                    </select>
+                    <small class="helper-text">The selected ending of each Referral Number is copied to its Patient ID.</small>
+                  </label>
+                  <label class="field-block">
+                    <span>Facilities</span>
+                    <div id="facility-id-combobox" class="combo-shell">
+                      <input
+                        id="override-facility-id"
+                        type="text"
+                        placeholder="Search facility key, ID, Region, name, or parent ID"
+                        autocomplete="off"
+                        role="combobox"
+                        aria-autocomplete="list"
+                        aria-controls="facility-id-menu"
+                        aria-expanded="false"
+                      />
+                      <button
+                        id="facility-id-toggle"
+                        type="button"
+                        class="combo-toggle"
+                        aria-label="Show facility options"
+                      >
+                        <span class="combo-chevron" aria-hidden="true"></span>
+                      </button>
+                      <div id="facility-id-menu" class="combo-menu hidden" role="listbox" aria-label="Facilities"></div>
+                    </div>
+                    <small id="facility-id-match" class="helper-text">
+                      No facility override. Search any of the five facility fields or leave this blank.
+                    </small>
+                    <div id="selected-facilities" class="selected-facilities" aria-live="polite"></div>
+                    <label class="radio-chip"><input id="randomize-facility-id" type="checkbox" /><span>Use all available facility IDs instead of a selected subset</span></label>
+                    <small id="facility-id-preview" class="helper-text live-preview">Preview: no Facility ID override</small>
+                  </label>
+                  <div class="field-block">
+                    <span>Payment Authority Code</span>
+                    <div id="payment-code-combobox" class="combo-shell">
+                      <input id="override-payment-authority-code" type="text" placeholder="Search Payment Authority Code" autocomplete="off" role="combobox" aria-label="Search Payment Authority Code" aria-autocomplete="list" aria-controls="payment-code-menu" aria-expanded="false" />
+                      <button id="payment-code-toggle" type="button" class="combo-toggle" aria-label="Show Payment Authority Code options"><span class="combo-chevron" aria-hidden="true"></span></button>
+                      <div id="payment-code-menu" class="combo-menu hidden" role="listbox" aria-label="Payment Authority Codes" aria-multiselectable="true"></div>
+                    </div>
+                    <small id="payment-code-match" class="helper-text">Choose one, several, or all configured codes.</small>
+                    <div id="selected-payment-codes" class="selected-facilities" aria-live="polite"></div>
+                    <label class="radio-chip"><input id="use-all-payment-codes" type="checkbox" checked /><span>Use all available Payment Authority Codes instead of a selected subset</span></label>
+                    <small id="payment-authority-code-preview" class="helper-text live-preview">Preview: mixed from the configured reference codes</small>
+                  </div>
+                  <label class="field-block">
+                    <span>Referral Period</span>
+                    <input id="override-referral-period" type="text" />
+                  </label>
+                  <div class="field-block">
+                    <span>Network</span>
+                    <div id="network-combobox" class="combo-shell">
+                      <input id="network-search" type="text" placeholder="Search or choose Network values" autocomplete="off" role="combobox" aria-label="Search Network values" aria-autocomplete="list" aria-controls="network-menu" aria-expanded="false" />
+                      <button id="network-toggle" type="button" class="combo-toggle" aria-label="Show Network options"><span class="combo-chevron" aria-hidden="true"></span></button>
+                      <div id="network-menu" class="combo-menu hidden" role="listbox" aria-label="Network values" aria-multiselectable="true"></div>
+                    </div>
+                    <small id="network-match" class="helper-text">Automatic mode keeps each referral's source Network.</small>
+                    <div id="selected-networks" class="selected-facilities" aria-live="polite"></div>
+                    <label class="radio-chip"><input id="use-all-networks" type="checkbox" /><span>Use all available Network values</span></label>
+                  </div>
+                  <div class="field-block">
+                    <span title="Controls the paired Care Package Number and Care Package ID values used for referral generation.">Care Package Number - Care Package ID</span>
+                    <div id="care-package-combobox" class="combo-shell">
+                      <input id="care-package-search" type="text" placeholder="Search Care Package Number or Care Package ID" autocomplete="off" role="combobox" aria-label="Search Care Package Number and Care Package ID" aria-autocomplete="list" aria-controls="care-package-menu" aria-expanded="false" />
+                      <button id="care-package-toggle" type="button" class="combo-toggle" aria-label="Show Care Package options"><span class="combo-chevron" aria-hidden="true"></span></button>
+                      <div id="care-package-menu" class="combo-menu hidden" role="listbox" aria-label="Care Package Number and Care Package ID"></div>
+                    </div>
+                    <small id="care-package-match" class="helper-text">Automatic mode uses each referral's regular source Care Package Number and ID.</small>
+                    <div id="selected-care-packages" class="selected-facilities" aria-live="polite"></div>
+                    <label class="radio-chip"><input id="use-all-care-packages" type="checkbox" /><span>Use all available Care Package values instead of a selected subset</span></label>
+                  </div>
+                  <div class="field-block">
+                    <span title="Controls the paired Situational Care Package Number and Care Package ID values used for referral generation."><span class="situational-label">Situational</span> Care Package Number - Care Package ID</span>
+                    <div id="situational-care-package-combobox" class="combo-shell">
+                      <input id="situational-care-package-search" type="text" placeholder="Search Situational Care Package Number or Care Package ID" autocomplete="off" role="combobox" aria-label="Search Situational Care Package Number and Care Package ID" aria-autocomplete="list" aria-controls="situational-care-package-menu" aria-expanded="false" />
+                      <button id="situational-care-package-toggle" type="button" class="combo-toggle" aria-label="Show Situational Care Package options"><span class="combo-chevron" aria-hidden="true"></span></button>
+                      <div id="situational-care-package-menu" class="combo-menu hidden" role="listbox" aria-label="Situational Care Package Number and Care Package ID"></div>
+                    </div>
+                    <small id="situational-care-package-match" class="helper-text">Manual only: no Situational Care Package is added unless you select one here.</small>
+                    <div id="selected-situational-care-packages" class="selected-facilities" aria-live="polite"></div>
+                    <label class="radio-chip"><input id="use-all-situational-care-packages" type="checkbox" /><span>Use all available Situational Care Package values instead of a selected subset</span></label>
+                  </div>
+                  <div id="care-package-override-warning" class="care-package-selection-warning field-span-2 hidden" role="status" aria-live="polite">
+                    <strong>Confirm this manual Care Package choice</strong>
+                    <span>Most referrals use regular Care Package only. Confirm the required Care Package ID and Number before running, and choose Situational Care Package only when specifically instructed.</span>
+                  </div>
+                  <label class="field-block">
+                    <span>DOB</span>
+                    <input id="override-dob" type="text" placeholder="YYYY-MM-DD" />
+                    <label class="radio-chip"><input id="randomize-dob" type="checkbox" checked /><span>Generate a random DOB for every patient</span></label>
+                    <small id="dob-help" class="helper-text">Uncheck random generation to use an optional fixed date in YYYY-MM-DD format.</small>
+                  </label>
+                  <label class="field-block">
+                    <span>Referral Category</span>
+                    <input id="override-referral-category" type="text" />
+                  </label>
+                  <label id="current-referral-dates-control" class="radio-chip current-dates-control">
+                    <input id="use-current-referral-dates" type="checkbox" checked />
+                    <span><strong>Use current dates</strong><small>Expiration follows Referral Period. Edit any date to customize.</small></span>
+                  </label>
+                  <label class="field-block">
+                    <span>Referral Date</span>
+                    <input id="override-referral-date" type="text" placeholder="YYYY-MM-DD" />
+                    <small id="referral-date-help" class="helper-text">Use the format YYYY-MM-DD.</small>
+                  </label>
+                  <label class="field-block">
+                    <span>Referral DateTime</span>
+                    <input id="override-referral-date-time" type="text" placeholder="YYYY-MM-DD HH:mm:ss" />
+                    <small id="referral-date-time-help" class="helper-text">Use the format YYYY-MM-DD HH:mm:ss.</small>
+                  </label>
+                  <label class="field-block">
+                    <span>Referral Expiration Date</span>
+                    <input id="override-referral-expiration-date" type="text" placeholder="YYYY-MM-DD" />
+                    <small id="referral-expiration-date-help" class="helper-text">Use the format YYYY-MM-DD.</small>
+                  </label>
+                  <label class="field-block">
+                    <span>Referral Last Update Date</span>
+                    <input id="override-referral-last-update-date" type="text" placeholder="YYYY-MM-DD" />
+                    <small id="referral-last-update-date-help" class="helper-text">Use the format YYYY-MM-DD.</small>
+                  </label>
+                </div>
+              </div>
+            </article>
+
+            <article id="output-card" class="content-card glass-card">
+              <div class="section-head">
+                <div>
+                  <h2>Output</h2>
+                  <p id="output-subtitle">
+                    Choose where the processed JSON files should be saved and how the final output should be kept.
+                  </p>
+                </div>
+              </div>
+
+              <details id="output-help" class="context-help">
+                <summary>Understand JSON names, Archive names, and output safety</summary>
+                <div class="context-help-grid context-help-grid--three">
+                  <div><strong>Processed JSON name</strong><span>Changes the names of individual JSON files. Leave it blank to keep source names when editing existing files.</span></div>
+                  <div><strong>Archive name</strong><span>Controls the final .gz package. Custom values are joined in the order shown, and the filename preview updates immediately.</span></div>
+                  <div><strong>Existing files</strong><span>Matching filenames are overwritten after validation. Unrelated files stay in place.</span></div>
+                </div>
+              </details>
+              <details id="leie-output-help" class="context-help hidden">
+                <summary>Understand LEIE output naming and safety</summary>
+                <div class="context-help-grid context-help-grid--three">
+                  <div><strong>Processed workbook</strong><span>Leave the name blank to keep the source base name, or enter a new base name. The app adds .xlsx automatically.</span></div>
+                  <div><strong>Source safety</strong><span>The source workbook remains unchanged. The processed copy is written only to the selected Output folder.</span></div>
+                  <div><strong>No Referral archive</strong><span>LEIE produces a processed .xlsx file. JSON naming, .gz Archive naming, and Referral retention choices do not apply.</span></div>
+                </div>
+              </details>
+
+              <div class="form-grid two-col output-grid">
+                <label class="field-block field-span-2">
+                  <span>Save processed files to</span>
+                  <div class="field-row">
+                    <input id="output-dir" type="text" placeholder="Choose where output files should be written" />
+                    <button data-pick="output-dir" class="toolbar-button invert-active">Save To</button>
+                  </div>
+                  <small id="output-dir-help" class="helper-text">Use a separate folder from the source folder.</small>
+                </label>
+                <label class="field-block">
+                  <span id="output-name-label">Name for the processed JSON files</span>
+                  <input id="replacement-code" type="text" placeholder="Leave blank to keep original file names" />
+                  <small id="output-name-help" class="helper-text">Leave blank to keep original file names.</small>
+                  <small id="output-json-preview" class="helper-text live-preview">Preview: original JSON names will be used</small>
+                </label>
+                <div class="field-block field-span-2 output-retention-card archive-naming-card">
+                  <div class="archive-naming-head">
+                    <span>Archive naming</span>
+                    <small class="helper-text">
+                      Choose a ready-made filename or build a Custom name from the values that matter to this run.
+                    </small>
+                  </div>
+                  <input id="archive-basename" type="hidden" value="referrals" />
+                  <input id="archive-append-network" type="hidden" />
+                  <input id="archive-append-referral-date-time" type="hidden" />
+                  <input id="use-alt-filename-prefix" type="hidden" />
+                  <div class="choice-card-grid archive-mode-choices" role="radiogroup" aria-label="Archive naming mode">
+                    <label class="choice-card"><input name="archive-naming-mode" type="radio" value="referral-number" checked /><span><strong>Referral Number</strong><small>Example: VA12345_Final</small></span></label>
+                    <label class="choice-card"><input name="archive-naming-mode" type="radio" value="network" /><span><strong>Network Name</strong><small>Add Network before the Referral Number.</small></span></label>
+                    <label class="choice-card"><input name="archive-naming-mode" type="radio" value="referral-date-time" /><span><strong>Referral DateTime</strong><small>Add a filesystem-safe date and time.</small></span></label>
+                    <label class="choice-card"><input name="archive-naming-mode" type="radio" value="custom" /><span><strong>Custom</strong><small>Choose any combination of filename values.</small></span></label>
+                  </div>
+                  <div id="archive-custom-fields" class="archive-custom-fields hidden">
+                    <div class="archive-custom-intro">
+                      <strong>Choose what appears in the filename</strong>
+                      <small>Select any values or select them all. Values use the order shown below, are separated by underscores, and update the preview immediately. `_Final` is added automatically.</small>
+                    </div>
+                    <label class="radio-chip archive-select-all"><input id="archive-custom-select-all" type="checkbox" /><span>Select all available values</span></label>
+                    <div class="archive-custom-value-grid" role="group" aria-label="Custom archive filename values">
+                      <label class="choice-card choice-card--compact archive-value-choice"><input id="archive-custom-value-referral-number" class="archive-custom-value" type="checkbox" value="referralNumber" checked /><span><strong>Referral Number</strong><small>{referralNumber}</small></span></label>
+                      <label class="choice-card choice-card--compact archive-value-choice"><input id="archive-custom-value-referral-prefix" class="archive-custom-value" type="checkbox" value="referralPrefix" /><span><strong>Referral Prefix</strong><small>{referralPrefix}</small></span></label>
+                      <label class="choice-card choice-card--compact archive-value-choice"><input id="archive-custom-value-network-name" class="archive-custom-value" type="checkbox" value="networkName" /><span><strong>Network Name</strong><small>{networkName}</small></span></label>
+                      <label class="choice-card choice-card--compact archive-value-choice"><input id="archive-custom-value-date" class="archive-custom-value" type="checkbox" value="date" /><span><strong>Date</strong><small>{date}</small></span></label>
+                      <label class="choice-card choice-card--compact archive-value-choice"><input id="archive-custom-value-date-time" class="archive-custom-value" type="checkbox" value="dateTime" /><span><strong>Date and Time</strong><small>{dateTime}</small></span></label>
+                      <label class="choice-card choice-card--compact archive-value-choice"><input id="archive-custom-value-custom-text" class="archive-custom-value" type="checkbox" value="customText" checked /><span><strong>Custom Text</strong><small>{customText}</small></span></label>
+                    </div>
+                    <label id="archive-custom-text-row" class="field-block"><span>Custom text</span><input id="archive-custom-text" type="text" maxlength="48" placeholder="Example: DGFP" /><small class="helper-text">Used only when Custom Text is selected above.</small></label>
+                    <small id="archive-name-help" class="helper-text archive-values-help">Available values: {referralNumber}, {referralPrefix}, {networkName}, {date}, {dateTime}, {customText}.</small>
+                  </div>
+                  <div class="filename-preview"><span>Archive filename preview</span><strong id="archive-preview">VA12345_Final.json · VA12345_Final.gz</strong></div>
+                </div>
+                <div id="output-retention-card" class="field-block field-span-2 output-retention-card">
+                  <div class="output-behavior-heading">
+                    <span>If the save folder already has files</span>
+                    <small>Matching filenames are overwritten automatically after the new batch passes validation.</small>
+                  </div>
+                  <div class="choice-card-grid output-mode-choices hidden" role="radiogroup" aria-label="Existing save folder files">
+                    <label class="choice-card recommended-choice">
+                      <input id="keep-existing-files" name="output-mode" type="radio" checked />
+                      <span>
+                        <strong>Keep existing files <em>Recommended</em></strong>
+                        <small>Preserves everything already there. The run stops safely if a new file would have the same name.</small>
+                      </span>
+                    </label>
+                    <label class="choice-card danger-choice">
+                      <input id="clear-output" name="output-mode" type="radio" />
+                      <span>
+                        <strong>Replace folder contents after success</strong>
+                        <small>Builds the new batch safely first, then removes the folder's existing contents before saving the new results.</small>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="retention-follow-up">
+                    <div>
+                      <strong>Files to keep after creating the .gz archive</strong>
+                      <small class="retention-label">The archive is always kept.</small>
+                    </div>
+                    <label class="choice-card compact-choice"><input id="keep-master-json" type="checkbox" checked /><span><strong>Keep formatted master JSON</strong><small>All referrals in one file. Clear both JSON options to keep only gzip. Generate a manifest after the job if needed.</small></span></label>
+                    <label class="choice-card compact-choice">
+                      <input id="keep-processed-json" type="checkbox" checked />
+                      <span><strong>Keep individual formatted JSON files</strong><small>Each source file remains available to inspect.</small></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article id="upload-card" class="content-card glass-card">
+              <div class="section-head">
+                <div>
+                  <h2>Upload</h2>
+                  <p id="upload-subtitle">Optionally upload the final .gz file to one or more saved environment profiles.</p>
+                </div>
+                <label class="checkbox-chip">
+                  <input id="upload-enabled" type="checkbox" />
+                  <span id="upload-enabled-label">Upload the .gz file after processing</span>
+                </label>
+              </div>
+              <details id="upload-help" class="context-help">
+                <summary>How optional uploads work</summary>
+                <div class="context-help-grid context-help-grid--three">
+                  <div><strong>Import</strong><span>Importing a configuration only saves connection profiles in the app. It does not upload any file.</span></div>
+                  <div><strong>Choose and test</strong><span>Enable upload, select the intended environment, and test its connection before starting the run.</span></div>
+                  <div><strong>Finish safely</strong><span>The app uploads only completed output. Keep it open until every selected target succeeds. Production is available only for LEIE and requires confirmation.</span></div>
+                </div>
+              </details>
+              <div class="upload-config-card">
+                <div class="upload-config-copy">
+                  <div id="upload-ready-pill" class="pill-note">No upload config imported</div>
+                </div>
+                <button id="import-upload-source" class="toolbar-button primary">Import To Config</button>
+              </div>
+              <div id="leie-upload-validation-card" class="leie-upload-validation-card hidden">
+                <div class="leie-upload-validation-head">
+                  <h3>Validate the LEIE Load in the Database</h3>
+                  <p>
+                    After the LEIE file is loaded, paste your <code>etl_batch_id</code>, copy the SQL below, and run it against your target database.
+                  </p>
+                </div>
+                <label class="field-block">
+                  <span>ETL Batch ID</span>
+                  <input
+                    id="leie-validation-batch-id"
+                    type="text"
+                    placeholder="Example: LEIE0731202606153013"
+                    autocomplete="off"
+                  />
+                  <small class="helper-text">Use the batch ID from <code>etl_batch_log</code>.</small>
+                </label>
+                <label class="field-block">
+                  <span>Validation SQL</span>
+                  <pre
+                    id="leie-validation-sql"
+                    class="sql-code-block"
+                    tabindex="0"
+                    role="region"
+                    aria-label="Syntax-highlighted LEIE validation SQL"
+                  ><code></code></pre>
+                </label>
+                <div class="toggle-row">
+                  <button id="copy-leie-validation-sql" class="toolbar-button">Copy SQL</button>
+                  <small id="leie-validation-copy-status" class="helper-text">
+                    Copy this SQL and run it against the database for the selected environment.
+                  </small>
+                </div>
+              </div>
+              <div id="upload-targets" class="upload-targets"></div>
+            </article>
+
+            <article id="run-card" class="content-card glass-card">
+              <div class="run-panel">
+                <div class="status-panel inline-status" role="status" aria-live="polite" aria-atomic="true">
+                  <span id="status-badge" class="status-badge idle">Ready</span>
+                  <p id="status-message">Choose a Referral Files workflow, then select the required files and folders.</p>
+                </div>
+                <div id="job-progress-wrap" class="job-progress-wrap hidden">
+                  <div class="job-progress-meta">
+                    <span id="job-progress-label">Starting the requested work...</span>
+                    <span id="job-progress-value"></span>
+                  </div>
+                  <progress id="job-progress" class="job-progress" max="100">Working</progress>
+                </div>
+                <div class="action-row">
+                  <button id="run-process" class="toolbar-button primary">Run Processing</button>
+                  <button id="run-generate" class="toolbar-button primary hidden">Generate Files</button>
+                  <button id="cancel-job" class="toolbar-button danger hidden" data-allow-while-busy="true">Cancel</button>
+                </div>
+                <div id="result-actions" class="result-actions hidden">
+                  <button id="open-output-folder" class="toolbar-button">Open Output Folder</button>
+                  <button id="open-batch-manifest" class="toolbar-button">Generate Manifest</button>
+                  <button id="copy-archive-path" class="toolbar-button">Copy Output Path</button>
+                  <button id="retry-failed-uploads" class="toolbar-button primary hidden">Retry Failed Uploads</button>
+                </div>
+              </div>
+            </article>
+          </section>
+        </main>
+      </section>
+    </div>
+
+    <div id="pre-run-overlay" class="modal-overlay hidden">
+      <section id="pre-run-panel" class="modal-panel glass-card pre-run-modal" role="dialog" aria-modal="true" aria-labelledby="pre-run-title">
+        <div class="release-announcement-header">
+          <span class="eyebrow">Safety Review</span>
+          <h2 id="pre-run-title">Review this run</h2>
+          <p>Confirm the business settings and exact destinations before the app changes or uploads files.</p>
+        </div>
+        <div id="pre-run-summary" class="pre-run-summary"></div>
+        <label id="prod-confirm-wrap" class="field-block hidden">
+          <span>Production confirmation</span>
+          <input id="prod-confirm-input" type="text" autocomplete="off" placeholder="Type PROD to confirm" />
+          <small class="helper-text">Production upload remains blocked until you type PROD.</small>
+        </label>
+        <div class="release-announcement-actions">
+          <button id="pre-run-cancel" class="toolbar-button">Go Back</button>
+          <button id="pre-run-confirm" class="toolbar-button primary">Start Safely</button>
+        </div>
+      </section>
+    </div>
+
+    <div id="release-announcement-overlay" class="modal-overlay hidden">
+      <section
+        id="release-announcement-panel"
+        class="modal-panel glass-card release-announcement-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="release-announcement-title"
+        aria-describedby="release-announcement-copy"
+      >
+        <div class="release-announcement-header">
+          <div class="release-announcement-brand">
+            <img class="app-logo app-logo-release" src="../../assets/icons/app_icon.png" alt="Application logo" />
+            <span class="eyebrow">Release Update</span>
+          </div>
+          <h2 id="release-announcement-title">What's new in this release</h2>
+          <p id="release-announcement-version" class="release-announcement-version"></p>
+          <p id="release-announcement-copy" class="release-announcement-copy">
+            Review the changes below. Scroll through the updates, then start using the app when you are ready.
+          </p>
+        </div>
+        <div class="release-announcement-scroll" tabindex="0" aria-label="Release notes">
+          <ul id="release-announcement-list" class="release-announcement-list"></ul>
+        </div>
+        <div class="release-announcement-actions">
+          <span>The release notes are shown once for this version.</span>
+          <button id="release-announcement-accept" class="toolbar-button primary">Start Using The App</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="./leieSql.js"></script>
+    <script src="./uploadDefaults.js"></script>
+    <script src="./jobUi.js"></script>
+    <script src="./runReview.js"></script>
+    <script src="./compactSelect.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
