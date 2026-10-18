@@ -1,9 +1,5 @@
-param([ValidateSet('start', 'verify', 'test:e2e', 'dist')][string]$Task = 'start')
+param([ValidateSet('start', 'verify', 'dist')][string]$Task = 'start')
 $ErrorActionPreference = 'Stop'
-$runtime = Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin'
-if (Test-Path -LiteralPath (Join-Path $runtime 'node.exe')) {
-    $env:PATH = "$runtime;$env:PATH"
-}
 if ((node --version) -notmatch '^v24\.') {
     throw 'This project requires Node.js 24. Install Node 24 or add it to PATH.'
 }

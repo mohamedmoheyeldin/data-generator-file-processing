@@ -13,7 +13,6 @@
     "verify": "pnpm test",
     "test:syntax": "node scripts/syntax-check.js",
     "test:smoke": "node scripts/smoke-test.js",
-    "test:e2e": "node scripts/electron-e2e-test.js",
     "data:facilities": "node scripts/import-facilities.js",
     "data:care-packages": "node scripts/import-care-packages.js",
     "predist": "node scripts/generate-user-guide-pdf.js && node scripts/sync-build-version.js",
@@ -26,8 +25,7 @@
   },
   "devDependencies": {
     "electron": "^44.4.1",
-    "electron-builder": "^26.15.3",
-    "playwright": "^1.63.0"
+    "electron-builder": "^26.15.3"
   },
   "build": {
     "appId": "com.example.datageneratorfileprocessing",
